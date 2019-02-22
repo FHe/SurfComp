@@ -12,9 +12,10 @@ from ChemSys import ChemSys
 from creating_databaseObject_from_text_type1 import *
 from Read_input_file_type1 import *
 # Read database
-database = 'Type1_Database.txt'
+database = 'Type4_Database.txt'
 # Instantiating database
 names_aqueous_primary_species, names_aqueous_secondary_species, Aq_Species_list_pri, Aq_Species_list_sec, Aq_Reaction_list = creating_databaseObject_from_text_type1 (database)
+
 
 D = Database()
 D.set_names_aq_primary_species(names_aqueous_primary_species)
@@ -22,7 +23,6 @@ D.set_aq_list_pri_class(Aq_Species_list_pri)
 D.set_names_aq_secondary_species (names_aqueous_secondary_species)
 D.set_aq_list_sec_class( Aq_Species_list_sec)
 D.set_aq_reactions_list(Aq_Reaction_list)
-
 
 # Check S
 D.create_log_k_vector()
@@ -35,7 +35,7 @@ D.create_S()
 #
 #
 # Reading input
-infile = 'Type1_Input.txt'
+infile = 'Type4_Input.txt'
 # Instantiating input
 list_prim, list_val = Read_input_file_type1 (infile)
 C = ChemSys( list_prim, list_val, D)
@@ -45,7 +45,6 @@ C.calculate_U_f1()
 #print(np.matmul(C.U, C.S.transpose()))
 # Pre-processing Results
 
-#c = C.NewtonRapshon_noactivitycoefficient()
-
-c = C.speciation_algorithm1(tolerance = 1e-11, type_I = 1)
+c = C.speciation_algorithm2_reduced_problem()
 C.print_speciation()
+C.calculate_ionic_strength(c)
